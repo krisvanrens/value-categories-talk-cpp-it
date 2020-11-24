@@ -1,5 +1,6 @@
 ---
 title: Understanding C++ value categories
+subtitle: C++ Day 2020
 author: Kris van Rens
 ---
 
@@ -12,6 +13,10 @@ author: Kris van Rens
 *(questions)*
 
 * **Value categories in the wild**
+
+. . .
+
+*(questions)*
 
 ::: notes
 Hi, and welcome to my talk on C++ value categories.
