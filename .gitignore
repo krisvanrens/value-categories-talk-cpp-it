@@ -1,0 +1,14 @@
+reveal.js/
+
+talk.html
+talk.pdf
+
+node_modules/
+node_modules
+package.json
+package-lock.json
+
+.DS_Store
+images/.DS_Store
+
+releases/
