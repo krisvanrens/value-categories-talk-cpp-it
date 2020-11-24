@@ -1296,174 +1296,6 @@ And in order to explain these situations, I'd like us all to brush up on some ba
 Namely: function call mechanics, or calling conventions.
 :::
 
-## Quick re-hash
-### Function call mechanics
-
-&nbsp;
-
-![](images/em-wrench.svg){ width="10%" }
-
-::: notes
-A little disclaimer: there are various different calling conventions, this is merely a global example.
-Also: compilers are smart and use loads of tricks for optimisations in the real world.
-However, for the purpose of explaining NRVO, the examples are fine.
-
-Let's go!
-:::
-
-##
-### No parameters, no return value
-
-::: columns
-:::: column
-```c++
-void func()
-{
-  // ...
-}
-
-func();
-```
-::::
-:::: column
-Stack when inside `func()`
-
-![](images/stack-frames1.png){ width="85%" }
-::::
-:::
-
-::: notes
-On the left: your C/C++ code with an example function call.
-On the right: the stack, when we're entering the function.
-
-Here's the most simple example ever: calling a function without any parameters or a return value.
-The stack will only contain the return address.
-:::
-
-##
-### Single parameter
-
-::: columns
-:::: column
-```c++
-void func(T arg)
-{
-  // ...
-}
-
-func(t);
-```
-::::
-:::: column
-Stack when inside `func()`
-
-![](images/stack-frames2.png){ width="85%" }
-::::
-:::
-
-::: notes
-What if we have a single function parameter?
-
-Now, the caller will push the function argument on the stack, right before the return address.
-This value can now be used when inside the function.
-:::
-
-##
-### Multiple parameters
-
-::: columns
-:::: column
-```c++
-void func(T arg1, T arg2)
-{
-  // ...
-}
-
-func(t1, t2);
-```
-::::
-:::: column
-Stack when inside `func()`
-
-![](images/stack-frames3.png){ width="85%" }
-::::
-:::
-
-::: notes
-What if we have multiple function parameters?
-
-The same really.
-The caller will now push all function arguments on the stack, one before the other, most often in reverse order.
-:::
-
-##
-### Return value
-
-::: columns
-:::: column
-```c++
-T func()
-{
-  // ...
-}
-
-T result = func();
-```
-::::
-:::: column
-Stack when inside `func()`
-
-![](images/stack-frames4.png){ width="85%" }
-::::
-:::
-
-::: notes
-What about a return value?
-This one's more interesting.
-For the return value, a so-called return slot is allocated.
-Here as well as for function parameters, the caller reserves space for the return slot.
-It is as though the function takes an extra output parameter in the beginning of the list.
-Now inside the function, the return value will be written to the return slot, and that's that really.
-:::
-
-##
-### Parameters + return value combined
-
-::: columns
-:::: column
-```c++
-T func(T arg1, T arg2)
-{
-  // ...
-}
-
-T result = func(t1, t2);
-```
-::::
-:::: column
-Stack when inside `func()`
-
-![](images/stack-frames5.png){ width="85%" }
-::::
-:::
-
-::: notes
-For one last example: let's combine function parameters and a return value.
-Now it's really clear how the return slot just seems like a function parameter.
-
-The takeaway from this quick function call mechanics brush-up, is that you should see that there are technically different slots allocated for the return value and the function arguments.
-Right?
-:::
-
-## Back to <span style="color:#7ea6e0">N</span>RVO
-
-::: notes
-Let's get back to NRVO.
-
-We where talking about how NRVO sometimes breaks.
-The four most common cases.
-:::
-
 ##
 ### <span style="color:#7ea6e0">N</span>RVO is not always possible (1)
 
@@ -1949,6 +1781,164 @@ An <span style="color:#0066cc">**``rvalue``**</span> is either a <span style="co
 |A:| *Because it is the syntax parsing phase early in the compilation that detects when a copy/move can be elided.* | |
 |  | *It does not make sense to generate a copy/move operation for the optimizer to remove it again later.*         | |
 +--+----------------------------------------------------------------------------------------------------------------+-+
+
+## Function call mechanics
+
+&nbsp;
+
+![](images/em-wrench.svg){ width="10%" }
+
+::: notes
+A little disclaimer: there are various different calling conventions, this is merely a global example.
+Also: compilers are smart and use loads of tricks for optimisations in the real world.
+However, for the purpose of explaining NRVO, the examples are fine.
+
+Let's go!
+:::
+
+##
+### No parameters, no return value
+
+::: columns
+:::: column
+```c++
+void func()
+{
+  // ...
+}
+
+func();
+```
+::::
+:::: column
+Stack when inside `func()`
+
+![](images/stack-frames1.png){ width="85%" }
+::::
+:::
+
+::: notes
+On the left: your C/C++ code with an example function call.
+On the right: the stack, when we're entering the function.
+
+Here's the most simple example ever: calling a function without any parameters or a return value.
+The stack will only contain the return address.
+:::
+
+##
+### Single parameter
+
+::: columns
+:::: column
+```c++
+void func(T arg)
+{
+  // ...
+}
+
+func(t);
+```
+::::
+:::: column
+Stack when inside `func()`
+
+![](images/stack-frames2.png){ width="85%" }
+::::
+:::
+
+::: notes
+What if we have a single function parameter?
+
+Now, the caller will push the function argument on the stack, right before the return address.
+This value can now be used when inside the function.
+:::
+
+##
+### Multiple parameters
+
+::: columns
+:::: column
+```c++
+void func(T arg1, T arg2)
+{
+  // ...
+}
+
+func(t1, t2);
+```
+::::
+:::: column
+Stack when inside `func()`
+
+![](images/stack-frames3.png){ width="85%" }
+::::
+:::
+
+::: notes
+What if we have multiple function parameters?
+
+The same really.
+The caller will now push all function arguments on the stack, one before the other, most often in reverse order.
+:::
+
+##
+### Return value
+
+::: columns
+:::: column
+```c++
+T func()
+{
+  // ...
+}
+
+T result = func();
+```
+::::
+:::: column
+Stack when inside `func()`
+
+![](images/stack-frames4.png){ width="85%" }
+::::
+:::
+
+::: notes
+What about a return value?
+This one's more interesting.
+For the return value, a so-called return slot is allocated.
+Here as well as for function parameters, the caller reserves space for the return slot.
+It is as though the function takes an extra output parameter in the beginning of the list.
+Now inside the function, the return value will be written to the return slot, and that's that really.
+:::
+
+##
+### Parameters + return value combined
+
+::: columns
+:::: column
+```c++
+T func(T arg1, T arg2)
+{
+  // ...
+}
+
+T result = func(t1, t2);
+```
+::::
+:::: column
+Stack when inside `func()`
+
+![](images/stack-frames5.png){ width="85%" }
+::::
+:::
+
+::: notes
+For one last example: let's combine function parameters and a return value.
+Now it's really clear how the return slot just seems like a function parameter.
+
+The takeaway from this quick function call mechanics brush-up, is that you should see that there are technically different slots allocated for the return value and the function arguments.
+Right?
+:::
 
 ## Copy/move constructors (1)
 
