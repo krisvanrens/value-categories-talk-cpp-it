@@ -1,6 +1,6 @@
 ---
 title: Understanding C++ value categories
-subtitle: C++ Day 2020
+subtitle: C++ Day 2020 - online edition
 author: Kris van Rens
 ---
 
