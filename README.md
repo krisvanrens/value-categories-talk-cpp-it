@@ -1,5 +1,7 @@
 # Understanding value categories in C++
 
+As presented at C++ Day 2020 for C++ IT on the 28th of November 2020.
+
 ## Abstract
 
 In C++ today, do you know what an xvalue is?
