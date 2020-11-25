@@ -1,6 +1,8 @@
 # Understanding value categories in C++
 
-As presented at C++ Day 2020 for C++ IT on the 28th of November 2020.
+As presented at C++ Day 2020 for C++ Italy on the 28th of November 2020.
+
+This is a slightly shortened version (~50 minutes) of [my regular talk](https://github.com/krisvanrens/value-categories-talk) (~60 minutes).
 
 ## Abstract
 
