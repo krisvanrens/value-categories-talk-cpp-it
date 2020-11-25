@@ -26,9 +26,9 @@ Perhaps you're even confused of all the information on value categories out ther
 And, perhaps you don't even know what I'm talking about -- that's fine, we're going to fix that!
 
 Let's get started!
-By the way, if you have any questions during the talk, don't hesitate to ask them right away.
 
 A little table of contents: I split the talk up in two parts: the first part is specifically about value categories, and the second part it about their practical applications.
+There's two slots for questions, halfway and at the end, I'd like you to save your questions for those moments.
 :::
 
 ## A little bit about me
@@ -682,7 +682,6 @@ It's outdated.
 
 * Communication: learn and be literate!
 * Reading compiler errors effectively,
-* In-depth knowledge on C++ is generally beneficial,
 * Useful for understanding move semantics,
 * Understanding copy elision and implicit conversions.
 
@@ -690,12 +689,12 @@ It's outdated.
 Congratulations! You're now the proud owner of this newly acquired knowledge on expression value categories!
 Now what?
 
-Now you can use this information to read more about C++, read articles, books, study! Value categories are often used in prose about C++.
+Now you can use this information to read more about C++, read articles, books, or --if you really have no live whatsoever-- the standard itself, study!
+Value categories are often used in prose about C++.
 Also, when consulting reference websites like CppReference or MSDN.
+I find that learning more about your programming language of choice will make you a better programmer in the long run.
 
 Compiler errors also tell you about illegal usage of value categories, now you're able to better understand them -- making you a more effective programmer.
-
-Again, I find that learning more about your programming language of choice will make you a better programmer in the long run.
 
 Also it can be quite useful to get a good understanding of move semantics, copy elision and implicit conversions.
 
