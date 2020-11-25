@@ -50,22 +50,6 @@ Outside of work I'm a husband, father of two, guitarist in a metal band and an a
 For any questions or comments, don't hesitate to reach out to me by e-mail or LinkedIn.
 :::
 
-## The premise and goals
-
-::: notes
-In this talk I'm going to cover a specific aspect of the C++ language standard: expression value categories.
-And I mean C++11/14 but specifically C++17 and onwards.
-Of course, as with every aspect of C++, there's more to it than can be told in 50 minutes, so you might want to dig in deeper yourself.
-For that, if you're interested, I will provide this presentation and an included list of resources.
-
-The goals of this talk are:
-
-* Provide you with a basic understanding of the value categories and their meaning in C++,
-* Show you how to apply your knowledge of value categories to make effective implementation choices and improve your code!
-
-To jump right in, and let's start with a quiz!
-:::
-
 ## Quiz
 
 ::: columns
