@@ -992,6 +992,10 @@ All of this goodness is made possible by some clever mechanisms built on top of 
 In fact, let's dive in a bit deeper and see what's there!
 :::
 
+##
+
+![](images/copy-elision-ce.png){ width="85%" }
+
 ## Under the hood
 
 > Under the rules of C++17, a <span style="color:#0066cc">**``prvalue``**</span> will be used only as an <strong>unmaterialized recipe</strong> of an object, until actual *materialization* is required.
@@ -1065,7 +1069,7 @@ What's interesting is that the value category of a temporary materialization con
 
 . . .
 
-Remember: <span style="color:#0066cc">**``prvalue``**</span>s are not moved from!
+<span style="color:#0066cc">**``prvalue``**</span>s are not moved from!
 
 ::: notes
 As we've seen from the example: temporary materialization is a prvalue to xvalue conversion.
@@ -1284,6 +1288,7 @@ Namely: function call mechanics, or calling conventions.
 
 ::: columns
 :::: column
+Multiple outputs
 ```c++
 T func()
 {
@@ -1299,29 +1304,7 @@ T x = func();
 ```
 ::::
 :::: column
-![](images/stack-frames4.png){ width="75%" }
-::::
-:::
-
-Not possible to allocate the return value into the return slot
-
-::: notes
-In this example, there are two possibilities:
-
-* The function returns from inside the if-statement, using a prvalue in this case.
-* The function returns at the end, using the local result variable.
-
-Note that this example is almost the same as the one we saw before, except that this time from the if-statement, we return a temporary.
-
-Now if the compiler would want to do NRVO, it would need to know in advance what the result of the if-statement will be, otherwise it cannot preallocate either result value into the return slot.
-So NRVO is disabled here.
-:::
-
-##
-### <span style="color:#7ea6e0">N</span>RVO is not always possible (2)
-
-::: columns
-:::: column
+Output stored elsewhere
 ```c++
 static T result;
 
@@ -1333,23 +1316,29 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
-![](images/stack-frames4.png){ width="75%" }
-::::
 :::
 
-Returning an object of static storage duration
-
 ::: notes
-In this next example, the object that is going to be returned is already allocated somewhere else, using static storage duration.
+In the left example, there are two possibilities:
+
+* The function returns from inside the if-statement, using a prvalue in this case.
+* The function returns at the end, using the local result variable.
+
+Note that this example is almost the same as the one we saw before, except that this time from the if-statement, we return a temporary.
+
+Now if the compiler would want to do NRVO, it would need to know in advance what the result of the if-statement will be, otherwise it cannot preallocate either result value into the return slot.
+So NRVO is disabled here.
+
+In the right example, the object that is going to be returned is already allocated somewhere else, using static storage duration.
 So the compiler cannot allocate the result in the return slot, and again, NRVO is disabled.
 :::
 
 ##
-### <span style="color:#7ea6e0">N</span>RVO is not always possible (3)
+### <span style="color:#7ea6e0">N</span>RVO is not always possible (2)
 
 ::: columns
 :::: column
+Slicing ![](images/em-pizza.svg){ width="4%" }
 ```c++
 struct U : T { /* Additional members */ };
 
@@ -1364,27 +1353,7 @@ T x = func();
 ```
 ::::
 :::: column
-![](images/stack-frames4.png){ width="75%" }
-::::
-:::
-
-Slicing ![](images/em-pizza.svg){ width="4%" }
-
-::: notes
-Next example.
-What if the type to be returned U is a derived type from T which is specified in the function return value?
-This is completely legal and is a situation called slicing.
-It is called slicing, as the derived type is of a larger footprint than the base type.
-And the return slot is allocated for the base type.
-So the compiler cannot directly allocate this local result value into the return slot.
-And again, sadly, NRVO is disabled.
-:::
-
-##
-### <span style="color:#7ea6e0">N</span>RVO is not always possible (4)
-
-::: columns
-:::: column
+Returning a function argument
 ```c++
 T func(T arg)
 {
@@ -1394,15 +1363,18 @@ T func(T arg)
 T x = func(T{});
 ```
 ::::
-:::: column
-![](images/stack-frames6.png){ width="75%" }
-::::
 :::
 
-Returning a function argument
-
 ::: notes
-One last example: returning a function argument.
+Next example on the left.
+What if the type to be returned U is a derived type from T which is specified in the function return value?
+This is completely legal and is a situation called slicing.
+It is called slicing, as the derived type is of a larger footprint than the base type.
+And the return slot is allocated for the base type.
+So the compiler cannot directly allocate this local result value into the return slot.
+And again, sadly, NRVO is disabled.
+
+One right and last example: returning a function argument.
 As we've seen from the function call mechanics crash course, function arguments are stored on the stack alongside the return slot.
 So the compiler cannot do NRVO, because the slots don't overlap.
 And by calling conventions it cannot make them do so.
@@ -1698,7 +1670,9 @@ One more more thing: there will be a workshop accompanying this talk.
 
 Thank you ![](images/em-grinning.svg){ width="3%" }
 
-[github.com/krisvanrens](https://github.com/krisvanrens/)
+&nbsp;
+
+![](images/em-link.svg){ width="3%" } [github.com/krisvanrens](https://github.com/krisvanrens/)
 
 ::: notes
 Thank you!
