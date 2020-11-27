@@ -1423,8 +1423,6 @@ T(&&)
 ::::
 :::
 
-. . .
-
 Implicit <span style="color:#0066cc">**``rvalue``**</span> conversion!
 
 ::: notes
@@ -1437,58 +1435,11 @@ This is an implicit rvalue conversion.
 
 This is nice, as it possibly optimizes the function data transaction still, even though there is no NVRO -- which is the best scenario.
 Note that because of situations like this, it is useful for your own designed types to be move-enabled.
-
-One more thing I'd like to mention around implicit move: don't be too clever.
-:::
-
-##
-### Inadvertently disabling <span style="color:#7ea6e0">N</span>RVO
-
-::: columns
-:::: column
-<span style="color:#7ea6e0">N</span>RVO
-```c++
-T func()
-{
-  T result;
-
-  return result;
-}
-
-T x = func();
-```
-::::
-:::: column
-No <span style="color:#7ea6e0">N</span>RVO
-```c++
-T func()
-{
-  T result;
-
-  return std::move(result);
-}
-
-T x = func();
-```
-::::
-:::
-
-Don't try to be too clever.. ![](images/em-nerd_face.svg){ width="3%" }
-
-::: notes
-Here's two examples, the one on the left has NRVO enabled just fine, on the right, it's not possible.
-
-Because what some misguided souls do, is try to anticipate on the possible move and use a std::move for the return object.
-This is a pessimization however, as the compiler now cannot employ NRVO anymore and is forced to fall back on a move operation.
-And a move operation, however cheap is not as cheap as no operation at all -- which would be the case for NRVO.
-
-Right.
-I'd like to provide you some guidelines before we finish off with the conclusions.
 :::
 
 ## Guidelines
 
-* Don't be afraid to return a non-POD type by value,
+* Don't be afraid to return an object by value,
 * Don't be too smart, let the compiler do the work for you,
 * Implement your move constructor/`operator=`,
 * Use compile-time programming if possible,
@@ -1636,20 +1587,11 @@ Conclusions on value categories:
 * Spanning categories: glvalue and rvalue.
 :::
 
-## Copy/move elision (1)
+## Copy/move elision / RVO
 
-* Copy elision: part of the standard,
-* Temporary materialization: part of the standard,
-* <span style="color:#ea6b66">U</span>RVO and <span style="color:#7ea6e0">N</span>RVO: unofficial terms,
-* Copy elision: allows, does not guarantee,
-* Temporary materialization: mandates.
-
-::: notes
-...
-:::
-
-## Copy/move elision (2)
-
+* **Copy elision**: part of the standard; permits,
+* **Temporary materialization**: part of the standard; mandates,
+* <span style="color:#ea6b66">U</span>RVO and <span style="color:#7ea6e0">N</span>RVO: unofficial terms.
 * Temporary materialization: <span style="color:#0066cc">**``prvalue``**</span> to <span style="color:#cc00cc">**``xvalue``**</span> conversion,
 * <span style="color:#0066cc">**``prvalue``**</span>s are **not** moved from,
 * Implicit move: a RVO that happens even without copy elision.
@@ -1662,9 +1604,7 @@ A prvalue is a recipe for an object, it materializes when evaluated, which is ca
 ...
 
 That's it for the conclusions.
-One more more thing: there will be a workshop accompanying this talk.
 :::
-
 
 # End
 
