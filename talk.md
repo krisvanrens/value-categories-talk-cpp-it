@@ -1080,50 +1080,6 @@ But a prvalue is not moved from!
 It materializes upon evaluation.
 :::
 
-## Temporary materialization
-
-Occurs when:
-
-* Accessing a member of a <span style="color:#0066cc">**``prvalue``**</span>,
-* Binding a reference to a <span style="color:#0066cc">**``prvalue``**</span>,
-* Applying `sizeof` or `typeid` to a <span style="color:#0066cc">**``prvalue``**</span>,
-* Etc.
-
-::: notes
-So when will this conversion happen?
-As we've just seen: it happens when the prvalue is evaluated, which can be many situations.
-
-...
-
-Let's look at a few more examples.
-:::
-
-##
-### Temporary materialization in action
-
-```c++
-struct T { int value; };
-
-T{}        // prvalue
-T{}.value  // xvalue
-```
-. . .
-```c++
-auto x = std::string("Guaca") + std::string("mole").c_str();
-//     ^                      ^                    ^
-//     3                      2                    1
-```
-
-::: notes
-Again, the most basic example where a data member is accessed, changing a prvalue into an xvalue.
-
-In the bottom example, there are three temporary materializations happening:
-
-* In the member function access of the second string,
-* When the operator plus is evaluated,
-* When the result of the operator plus is evaluated to initialize object x.
-:::
-
 ## C++17 copy/move elision
 
 ### = Copy elision + temporary materialization
@@ -1386,18 +1342,6 @@ I will briefly touch upon this moving behavior in a moment.
 First let's summarize RVO.
 :::
 
-## Summarizing RVO
-
-> RVO does not work when <strong>there's no control over the physical location of the object to be elided</strong>.
-
-::: notes
-Again, that's:
-
-* Objects with static storage duration,
-* Sliced objects,
-* Function arguments.
-:::
-
 ## Implicit move
 
 When even <span style="color:#7ea6e0">N</span>RVO is not possible..
@@ -1592,9 +1536,8 @@ Conclusions on value categories:
 * **Copy elision**: part of the standard; permits,
 * **Temporary materialization**: part of the standard; mandates,
 * <span style="color:#ea6b66">U</span>RVO and <span style="color:#7ea6e0">N</span>RVO: unofficial terms.
-* Temporary materialization: <span style="color:#0066cc">**``prvalue``**</span> to <span style="color:#cc00cc">**``xvalue``**</span> conversion,
-* <span style="color:#0066cc">**``prvalue``**</span>s are **not** moved from,
 * Implicit move: a RVO that happens even without copy elision.
+* <span style="color:#0066cc">**``prvalue``**</span>s are **not** moved from,
 
 ::: notes
 ...
