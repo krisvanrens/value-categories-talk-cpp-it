@@ -1536,8 +1536,8 @@ Conclusions on value categories:
 * **Copy elision**: part of the standard; permits,
 * **Temporary materialization**: part of the standard; mandates,
 * <span style="color:#ea6b66">U</span>RVO and <span style="color:#7ea6e0">N</span>RVO: unofficial terms.
-* Implicit move: a RVO that happens even without copy elision.
-* <span style="color:#0066cc">**``prvalue``**</span>s are **not** moved from,
+* Implicit move: a RVO that happens even without copy elision,
+* <span style="color:#0066cc">**``prvalue``**</span>s are **not** moved from.
 
 ::: notes
 ...
