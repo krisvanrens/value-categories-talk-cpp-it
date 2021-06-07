@@ -1,0 +1,2 @@
+#!/bin/bash -e
+sed -i '/<aside class="notes">/,/<\/aside>/d' $1
