@@ -4,11 +4,14 @@ talk.html
 talk.pdf
 
 node_modules/
-node_modules
 package.json
-package-lock.json
+yarn.lock
 
 .DS_Store
 images/.DS_Store
 
 releases/
+snapshots/
+tmp/
+
+.vscode/

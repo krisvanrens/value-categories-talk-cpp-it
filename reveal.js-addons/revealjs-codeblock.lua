@@ -39,8 +39,10 @@ function CodeBlock(block)
   if FORMAT == 'revealjs'
   then
     local css_classes = {}
+    local langlogo_classes = {}
     local pre_tag_attributes = {}
     local code_tag_attributes = {}
+    local langlogo_attributes = {}
 
     for _, class in ipairs(block.classes)
     do
@@ -49,9 +51,11 @@ function CodeBlock(block)
         if not is_data_line_number_in_attributes(block.attributes)
         then
           table.insert(block.attributes, {'data-line-numbers', ''})
+          table.insert(langlogo_classes, 'numbered-block')
         end
       else
         table.insert(css_classes, class)
+        table.insert(langlogo_classes, class)
       end
     end
 
@@ -66,6 +70,12 @@ function CodeBlock(block)
       table.insert(code_tag_attributes, class_attribute)
     end
 
+    if next(langlogo_classes)
+    then
+      class_attribute = string.format('class="%s"', table.concat(langlogo_classes, ' '))
+      table.insert(langlogo_attributes, class_attribute)
+    end
+
     for _, attribute in ipairs(block.attributes)
     do
       attribute_string = string.format('%s="%s"', attribute[1], attribute[2])
@@ -77,10 +87,11 @@ function CodeBlock(block)
       end
     end
 
-    local html = string.format('<pre %s><code %s>%s</code></pre>',
+    local html = string.format('<pre %s><code %s>%s</code><div class="langlogo"><div %s></div></div></pre>',
                                 table.concat(pre_tag_attributes, ' '),
                                 table.concat(code_tag_attributes, ' '),
-                                block.text:gsub("<", "&lt;"):gsub(">", "&gt;"))
+                                block.text:gsub("<", "&lt;"):gsub(">", "&gt;"),
+                                table.concat(langlogo_attributes, ' '))
     return pandoc.RawBlock('html', html)
   end
 end

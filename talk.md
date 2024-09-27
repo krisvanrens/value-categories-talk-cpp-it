@@ -53,7 +53,7 @@ For any questions or comments, don't hesitate to reach out to me by e-mail or Li
 ## Quiz
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 struct Number {
   int value_ = {};
@@ -72,7 +72,7 @@ private:
 };
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 static T create(Number &&n) {
   return T{std::move(n)};
@@ -299,7 +299,7 @@ Let's take a look at some code examples for each of the two properties.
 ### Does it evaluate to an identity?
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 int a;
 
@@ -316,7 +316,7 @@ false             // Has no identity
 std::cout  // Has identity
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 a + 2      // Has no identity
 a || true  // Has no identity
@@ -374,7 +374,7 @@ Again, let's look at some examples.
 ### Can its resources be safely stolen?
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 std::string func()
 {
@@ -386,7 +386,7 @@ std::vector<std::string> vec;
 vec.push_back(func());
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 std::string x{"Steal me!"};
 
@@ -513,7 +513,7 @@ OK, now let's go and look at some examples!
 ## Examples (1)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 42  // prvalue
 ```
@@ -524,7 +524,7 @@ nullptr  // prvalue
 "Hi there!"  // lvalue
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ![](images/value-categories-table.png){ width="90%" }
 ::::
 :::
@@ -538,7 +538,7 @@ And in this example there's no reason to assume its resources can be safely stol
 ## Examples (2)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 int x = 42;
 ```
@@ -549,7 +549,7 @@ int x = 42;
 x++  // prvalue
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ![](images/value-categories-table.png){ width="90%" }
 ::::
 :::
@@ -564,7 +564,7 @@ Post-increment will return a temporary copy to the unincremented `x`, and then i
 ## Examples (3)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 int x = 42;
 ```
@@ -575,7 +575,7 @@ x   // lvalue
 std::move(x)  // xvalue
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ![](images/value-categories-table.png){ width="90%" }
 ::::
 :::
@@ -589,7 +589,7 @@ That's when an lvalue changes into an xvalue.
 ## Examples (4)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 void func(int &&arg)
 {
@@ -602,7 +602,7 @@ void func(int &&arg)
 func(42);  // '42' is a prvalue
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ![](images/value-categories-table.png){ width="90%" }
 ::::
 :::
@@ -621,7 +621,7 @@ And lastly, the function `other_func` is called with an xvalue.
 ## Examples (5)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 void func(int &arg);   // #1
 void func(int &&arg);  // #2
@@ -632,7 +632,7 @@ int &&x = 42;
 func(x);  // Which overload is called?
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ![](images/value-categories-table.png){ width="90%" }
 ::::
 :::
@@ -705,7 +705,7 @@ But first, we're going to revisit our example.
 ## Quiz revisited
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 struct Number {
   int value_ = {};
@@ -724,7 +724,7 @@ private:
 };
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 static T create(Number &&n) {
   return T{std::move(n)};
@@ -804,7 +804,7 @@ Let's take a look at some examples.
 ### Copy elision in action
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 C++ code:
 ```c++
 T func()
@@ -815,7 +815,7 @@ T func()
 T x = func();  // Create temporary
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 Possible output (1):
 ```c++
 T()
@@ -840,7 +840,7 @@ One copy construction upon function returning, and one copy construction in the 
 ### Copy elision in action
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 C++ code:
 ```c++
 T func()
@@ -851,7 +851,7 @@ T func()
 T x = func();  // Create temporary?
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 Possible output (2):
 ```c++
 T()
@@ -872,7 +872,7 @@ When copy elision is enabled for either a function return or an object initializ
 ### Copy elision in action
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 C++ code:
 ```c++
 T func()
@@ -883,7 +883,7 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 Possible output (3):
 ```c++
 T()
@@ -1159,7 +1159,7 @@ The best way to demonstrate NVRO is using an example.
 The most simple example
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 T func()
 {
@@ -1171,7 +1171,7 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 T()
 ~T()
@@ -1194,7 +1194,7 @@ This example can be extended to become slightly more complex.
 Slightly more involved
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 T func()
 {
@@ -1211,7 +1211,7 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 T()
 ~T()
@@ -1243,7 +1243,7 @@ Namely: function call mechanics, or calling conventions.
 ### <span style="color:#7ea6e0">N</span>RVO is not always possible (1)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 Multiple outputs
 ```c++
 T func()
@@ -1259,7 +1259,7 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 Output stored elsewhere
 ```c++
 static T result;
@@ -1293,7 +1293,7 @@ So the compiler cannot allocate the result in the return slot, and again, NRVO i
 ### <span style="color:#7ea6e0">N</span>RVO is not always possible (2)
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 Slicing ![](images/em-pizza.svg){ width="4%" }
 ```c++
 struct U : T { /* Additional members */ };
@@ -1308,7 +1308,7 @@ T func()
 T x = func();
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 Returning a function argument
 ```c++
 T func(T arg)
@@ -1347,7 +1347,7 @@ First let's summarize RVO.
 When even <span style="color:#7ea6e0">N</span>RVO is not possible..
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 T func(T arg)
 {
@@ -1357,7 +1357,7 @@ T func(T arg)
 T x = func(T{});
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 T()
 T(&&)
@@ -1417,7 +1417,7 @@ Before we jump into the conclusions, let's take one last look at the quiz exampl
 ## Quiz revisited
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 struct Number {
   int value_ = {};
@@ -1436,7 +1436,7 @@ private:
 };
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 static T create(Number &&n) {
   return T{std::move(n)};
@@ -1464,7 +1464,7 @@ This means the copy constructor of T isn't used.
 ## Quiz revisited
 
 ::: columns
-:::: column
+:::: {.column width="50%"}
 ```c++
 struct Number {
   int value_ = {};
@@ -1481,7 +1481,7 @@ private:
 };
 ```
 ::::
-:::: column
+:::: {.column width="50%"}
 ```c++
 int main() {
   T x = T{Number{42}};
